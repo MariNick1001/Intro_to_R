@@ -3,6 +3,7 @@
 install.packages("usethis")
 install.packages("gitcreds")
 
+#learned that when you use package:: you don't need to import via library(package), this is useful for quick command line stuff
 usethis::use_git_config(user.name = "Your github username", user.email = "you@example.com")
 usethis::create_github_token() #opens github to create a token
 
