@@ -3,7 +3,7 @@
 install.packages("usethis")
 install.packages("gitcreds")
 
-usethis::use_git_config(user.name = "Your Name", user.email = "you@example.com")
+usethis::use_git_config(user.name = "Your github username", user.email = "you@example.com")
 usethis::create_github_token() #opens github to create a token
 
 gitcreds::gitcreds_set() #prompts entering the created github token
