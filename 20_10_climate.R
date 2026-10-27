@@ -5,7 +5,7 @@ library(rnaturalearth)
 library(magick)
 library(gifski)
 
-setwd("~/EAGLE/Programming_in_EO") #set working directory to source file location
+setwd("~/EAGLE/Intro_to_R") #set working directory to source file location
 
 #countrym = st_as_sf(geodata::gadm(country="countrymany", level=0, path = "."))
 country <- ne_countries(country="Kenya", scale = "medium", returnclass = "sf")
