@@ -36,7 +36,7 @@ m1
 num_1 = rnorm(8000, mean = 0, sd=1)
 mat_1 = matrix(num_1, nrow = ceiling(sqrt(length(num_1))))
 mat_1
-heatmap(mat_1, scale = "column", col = hcl.colors(50, "lajolla", rev = TRUE), Rowv = NA, Colv = NA)
+heatmap(mat_1, scale = "column", col = hcl.colors(50, "earth", rev = TRUE), Rowv = NA, Colv = NA)
 
 
 df_1 = data.frame(mat_1)
@@ -52,4 +52,35 @@ test[,"A"] # column "A"
 test$A # column "A" also i guess
 
 #---------------------------------
-# 
+# FUNCTIONS
+# --------------------------------
+
+maths <- function(x, y, operator="+"){
+  z <- x+y
+  return(z)
+}
+
+greetings <- function(name, useglue=FALSE) {
+  if(useglue==TRUE){
+    glue::glue("How you doing, {name}?")
+  } else {
+    paste0("How do you do, ", name, "?")
+  }
+}
+greetings("myself")
+
+n_diff <- function(x, y){
+  (x-y)/(x+y)
+}
+
+rand.scheme <- function(notifications = TRUE, test_mode = FALSE){
+  number = runif(1, 1, 115)
+  palette = hcl.pals()[number]
+  if(notifications == TRUE) {
+    cat(glue::glue("Color scheme: {palette}"))
+  }
+  palette
+}
+rand.scheme()
+heatmap(mat_1, scale = "column", col = hcl.colors(50, rand.scheme(), rev = TRUE), Rowv = NA, Colv = NA)
+
