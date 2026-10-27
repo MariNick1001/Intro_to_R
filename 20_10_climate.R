@@ -7,31 +7,34 @@ library(gifski)
 
 setwd("~/EAGLE/Programming_in_EO") #set working directory to source file location
 
-#germ = st_as_sf(geodata::gadm(country="Germany", level=0, path = "."))
-ger <- ne_countries(country="Kenya", scale = "medium", returnclass = "sf")
-plot(ger)
+#countrym = st_as_sf(geodata::gadm(country="countrymany", level=0, path = "."))
+country <- ne_countries(country="Kenya", scale = "medium", returnclass = "sf")
+plot(country)
 
 prec = geodata::worldclim_global(var = "prec", res = 10, download = T, path = ".")
 temp = geodata::worldclim_global(var = "tmin", res = 10, download = T, path = ".")
-#precipitation and temperatures, plotted per month, masked to germany
+srad = geodata::worldclim_global(var = "srad", res = 10, download = T, path = ".")
+#precipitation and temperatures, plotted per month, masked to countrymany
 
-ger.r <- st_transform(ger, st_crs(temp))
-temp.m <- crop(temp, ger.r, mask=TRUE)
-prec.m <- crop(prec, ger.r, mask=TRUE)
+country.r <- st_transform(country, st_crs(temp))
+temp.m <- crop(temp, country.r, mask=TRUE)
+prec.m <- crop(prec, country.r, mask=TRUE)
+srad.m <- crop(srad, country.r, mask=TRUE)
 plot(temp.m)
 plot(prec.m)
 
 
-temp_vect = terra::extract(temp.m, ger, mean)
-prec_vect = terra::extract(prec.m, ger, mean)
+temp_vect = terra::extract(temp.m, country, mean)
+prec_vect = terra::extract(prec.m, country, mean)
+srad_vect = terra::extract(srad.m, country, mean)
 plot(unlist(temp_vect[,-1])) # [rows, columns]
 plot(unlist(prec_vect[,-1])) # empty first means all rows, 
-
+plot(unlist(srad_vect[,-1]))
 
 #First Approach at animation
 frames <- image_graph(width = 600, height = 600, res = 96)
 for (i in 1:nlyr(temp.m)) {
-  plot(temp.m[[i]], main = month.name[i], range = range(minmax(temp.m)))
+  plot(prec.m[[i]], main = month.name[i], range = range(minmax(temp.m)))
 }
 dev.off()
 
