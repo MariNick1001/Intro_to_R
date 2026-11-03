@@ -79,8 +79,13 @@ rand.scheme <- function(notifications = TRUE, test_mode = FALSE){
   if(notifications == TRUE) {
     cat(glue::glue("Color scheme: {palette}"))
   }
+  if(test_mode == TRUE) {
+    x = seq(1,25, by=1)
+    m = matrix(x, nrow=5, ncol=5)
+    heatmap(m, scale = "column", col = hcl.colors(50, palette, rev = TRUE), Rowv = NA, Colv = NA)
+  }
   palette
 }
-rand.scheme()
+rand.scheme(TRUE, TRUE)
 heatmap(mat_1, scale = "column", col = hcl.colors(50, rand.scheme(), rev = TRUE), Rowv = NA, Colv = NA)
 
