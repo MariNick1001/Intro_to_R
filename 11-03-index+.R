@@ -62,3 +62,57 @@ ggplot(df) +
 
 
 help.search("geom_", package = "ggplot2") #look for which geometries are there
+
+
+#-------------
+# playing around
+#---------------
+# Library
+library(plotly)
+library(readr)
+
+# x y matrix
+x <- seq(11, 110, by = 1)
+m1 = matrix(x, nrow = ceiling(sqrt(length(x))), byrow = TRUE)
+plot_ly(z = m1, type = "surface")
+
+
+num_1 = rnorm(8000, mean = 0, sd=1)
+mat_1 = matrix(num_1, nrow = ceiling(sqrt(length(num_1))))
+plot_ly(z = mat_1, type = "surface")
+
+
+
+
+
+#point x ndvi x max_temp (for one date)
+year = 2023
+setwd("C:/Users/MariN/OneDrive/Dokumente/University/Seminararbeiten/BACHELORARBEIT/Scripts/data/")
+m = read_csv(paste0("era5_prec/era5_precipitation_", year, ".csv"))
+pts   <- unique(m$point_id)[1:300] #select the first 300 points                 
+m_sub <- setDT(m)[point_id %in% pts]
+
+m_matr = dcast(data=setDT(m_sub),formula = point_id~date,
+      fun.aggregate = mean,value.var = "precip_mm",fill = 0)
+
+z <- as.matrix(m_matr[, -1])                      # dropping point id to create matrix input
+rownames(z) <- m_matr$point_id
+
+
+# Plot
+plot_ly(z = z, type = "surface")
+p <- layout(plot_ly(z = z, type = "surface"),
+            scene = list(xaxis = list(title = paste("Day of", year)),
+                         yaxis = list(title = "Point id"),
+                         zaxis = list(title = "Precipitation (mm)")))
+p
+
+
+
+#------------------------\
+# Interesting packages   |
+# - plotly               |
+# - rayshader            |
+# - patchwork (arrange plots in one window)
+# - gganimate            |
+#------------------------/
