@@ -1,11 +1,15 @@
 library(rnaturalearth)
 library(rnaturalearthdata)
 
+world <- ne_countries(scale = "medium", returnclass = "sf")
+class(world)
+
 country_guessr <- function(duration = 10) {
   points = 0
   for(i in c(1:duration)){
     random = world[ceiling(runif(1)*nrow(world)), ]
     #cat(random$sovereignt)
+    cat("\nYour guess: ")
     
     p <- ggplot(data = random) +
       geom_sf(fill = "darkgreen") +
